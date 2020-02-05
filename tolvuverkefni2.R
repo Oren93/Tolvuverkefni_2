@@ -1,6 +1,15 @@
-library(tidyverse)library(readr)
+library(tidyverse)
+library(readr)
 library(dplyr)
-library(lubridate) # pakki med follum fyrir vinnslu med dagsetningar (date eda datetime breytur)
+library(lubridate)
 library(ggplot2)
 
-oo = read_csv("husnaedi.csv")
+oo <- read.csv(file = 'husnaedi.csv', fileEncoding = "UTF-8", sep =';')
+oo = oo %>% rename("curent_value" = "nuvirdi",
+                   "type" = "teg_eign",
+                   "area" = "matssvaedi",
+                   "size" = "ibm2",)
+
+
+oo <- oo%>%filter(area==90)
+oo <- subset(oo, select = -c(area))
