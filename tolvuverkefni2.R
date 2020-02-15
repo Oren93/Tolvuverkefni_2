@@ -1,7 +1,6 @@
 library(tidyverse)
 library(readr)
 library(dplyr)
-library(lubridate)
 library(ggplot2)
 
 oo <- read.csv(file = 'husnaedi.csv', fileEncoding = "UTF-8", sep =';')
@@ -15,6 +14,7 @@ hverfi<-sample(c(20,90,100),1)
 oo <- oo%>%filter(area==hverfi)
 oo <- subset(oo, select = -c(area))
 oo <- filter(oo, type =="Íbúðareign")
+oo <- subset(oo, select = -c(type))
 remove(hverfi)
 
 ## b)
@@ -23,7 +23,7 @@ remove(hverfi)
 # max(oo$current_value)
 
 ggplot(oo, aes( x=curent_value)) + 
-  geom_histogram()+xlab("price")
+  geom_histogram()+xlab("Price (thousands - ISK)")+ylab("Frequency - Number of properties")
 price_mean = mean(oo$curent_value)
 
 ## c)
