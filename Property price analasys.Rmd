@@ -1,0 +1,99 @@
+---
+title: "Property price analasys (Tölvuverkefni 2)"
+author: "Óðinn Eldon Ragnarsson (oer2@hi.is) and Oren Raz (orr3@hi.is)"
+date: "15.2.2020"
+output: html_document
+---
+Importing libraries needed
+```{r packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+## a)
+First we read the csv file and create a database to work with within R. We then rename the columns of the database to be more readable names. The data in question was published by "Þjóðskrá Íslands" in October 2016 regarding property prices in 2017.
+```{r}
+oo <- read.csv(file = 'husnaedi.csv', fileEncoding = "UTF-8", sep =';')
+oo = oo %>% rename("curent_value" = "nuvirdi",
+                   "type" = "teg_eign",
+                   "area" = "matssvaedi",
+                   "size" = "ibm2",)
+```
+
+We pick a seed based on our birhtdays to use to determine which area we will work with. We will only use properties of the type "Íbúðareign" so other entries are filtered out. Finally we remove the type column as it is no longer needed.
+
+```{r}
+set.seed(0601)
+hverfi<-sample(c(20,90,100),1)
+oo <- oo%>%filter(area==hverfi)
+oo <- subset(oo, select = -c(area))
+oo <- filter(oo, type =="Íbúðareign")
+oo <- subset(oo, select = -c(type))
+```
+
+As the seed is fixed the same area will be selected every time, in our case `r hverfi`. But we don't need this variable anymore so we'll remove it.
+
+```{r}
+rm(hverfi)
+```
+
+## b)
+Here we have a histogram that shows the price distribution of properties.
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(oo, aes( x=curent_value)) + 
+  geom_histogram()+xlab("Price (thousands - ISK)")+ylab("Frequency - Number of properties")
+price_mean = mean(oo$curent_value)
+```
+
+The mean price is `r round(mean(oo$curent_value), digits=0)` with a minimum of `r min(oo$curent_value)` and a maximum of `r max(oo$curent_value)` 
+
+## C)
+here we will demonstrate how the mean converges onto a single value with a larger and larger sample size. This information can very very important to wee whether a mean really tells you something about a data set or wether the mean is taken before the mean converges. As before we will need a seed to ensre that the plot is the same every time. 
+
+```{r}
+set.seed(0601)
+someVector <- sapply((1:5000),
+  function(x) {mean(sample(oo$curent_value, x,replace = TRUE))})      
+
+qplot(x = 1:5000,
+      y = someVector,
+      geom="line")+ xlab("Sample size")+ ylab("Mean price") +
+      geom_hline(yintercept = price_mean, col="red")
+rm(someVector)
+```
+
+This is the law of large numbers at work. Note that the database only contains 1256 values so we are reusing values to create the full plot.
+
+
+## d)
+Here we create four vectors with 10000 entries. Each entry contains the average of n random prices. We use n = 2, 5, 20, 400.
+
+```{r}
+staerd <- c(2,5,20,400)
+staerd1 <- replicate(n = 10000, mean(sample(oo$curent_value,
+        staerd[1],replace = TRUE)),simplify = TRUE )
+staerd2 <- replicate(n = 10000, mean(sample(oo$curent_value,
+        staerd[2],replace = TRUE)),simplify = TRUE ) 
+staerd3 <- replicate(n = 10000, mean(sample(oo$curent_value,
+        staerd[3],replace = TRUE)),simplify = TRUE )
+staerd4 <- replicate(n = 10000, mean(sample(oo$curent_value,
+        staerd[4],replace = TRUE)),simplify = TRUE )
+remove(staerd)
+```
+
+## e)
+
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+

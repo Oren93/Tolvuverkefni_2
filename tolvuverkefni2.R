@@ -18,9 +18,9 @@ oo <- subset(oo, select = -c(type))
 remove(hverfi)
 
 ## b)
-# mean(oo$current_value)
-# min(oo$current_value)
-# max(oo$current_value)
+# mean(oo$curent_value)
+# min(oo$curent_value)
+# max(oo$curent_value)
 
 ggplot(oo, aes( x=curent_value)) + 
   geom_histogram()+xlab("Price (thousands - ISK)")+ylab("Frequency - Number of properties")
@@ -33,9 +33,9 @@ someVector <- sapply((1:5000),
 
 qplot(x = 1:5000,
       y = someVector,
-      geom="line")+ xlab("sample size")+ ylab("mean price") +
+      geom="line")+ xlab("Sample size")+ ylab("Mean price") +
       geom_hline(yintercept = price_mean, col="red")
-
+rm(someVector)
 
 qplot(x = 1:5000,
       y = sapply((1:5000), function(x)
@@ -48,7 +48,7 @@ staerd <- c(2,5,20,400)
 staerd1 <- replicate(n = 10000, mean(sample(oo$curent_value,
         staerd[1],replace = TRUE)),simplify = TRUE )
 staerd2 <- replicate(n = 10000, mean(sample(oo$curent_value,
-        staerd[2],replace = TRUE)),simplify = TRUE )
+        staerd[2],replace = TRUE)),simplify = TRUE ) 
 staerd3 <- replicate(n = 10000, mean(sample(oo$curent_value,
         staerd[3],replace = TRUE)),simplify = TRUE )
 staerd4 <- replicate(n = 10000, mean(sample(oo$curent_value,
