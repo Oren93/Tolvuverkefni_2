@@ -1,7 +1,6 @@
 library(tidyverse)
 library(readr)
 library(dplyr)
-library(lubridate)
 library(ggplot2)
 
 oo <- read.csv(file = 'husnaedi.csv', fileEncoding = "UTF-8", sep =';')
@@ -19,12 +18,12 @@ oo <- subset(oo, select = -c(type))
 remove(hverfi)
 
 ## b)
-# mean(oo$current_value)
-# min(oo$current_value)
-# max(oo$current_value)
+# mean(oo$curent_value)
+# min(oo$curent_value)
+# max(oo$curent_value)
 
 ggplot(oo, aes( x=curent_value)) + 
-  geom_histogram()+xlab("price")
+  geom_histogram()+xlab("Price (thousands - ISK)")+ylab("Frequency - Number of properties")
 price_mean = mean(oo$curent_value)
 
 ## c)
@@ -34,9 +33,9 @@ someVector <- sapply((1:5000),
 
 qplot(x = 1:5000,
       y = someVector,
-      geom="line")+ xlab("sample size")+ ylab("mean price") +
+      geom="line")+ xlab("Sample size")+ ylab("Mean price") +
       geom_hline(yintercept = price_mean, col="red")
-
+rm(someVector)
 
 qplot(x = 1:5000,
       y = sapply((1:5000), function(x)
