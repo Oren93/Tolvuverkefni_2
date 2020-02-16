@@ -46,17 +46,25 @@ qplot(x = 1:5000,
 
 ## d)
 staerd <- c(2,5,20,400)
-staerd1 <- replicate(n = 10000, mean(sample(oo$curent_value,
-        staerd[1],replace = TRUE)),simplify = TRUE )
-staerd2 <- replicate(n = 10000, mean(sample(oo$curent_value,
-        staerd[2],replace = TRUE)),simplify = TRUE )
-staerd3 <- replicate(n = 10000, mean(sample(oo$curent_value,
-        staerd[3],replace = TRUE)),simplify = TRUE )
-staerd4 <- replicate(n = 10000, mean(sample(oo$curent_value,
-        staerd[4],replace = TRUE)),simplify = TRUE )
-remove(staerd)
+for (x in 1:4) {
+assign(paste(c("staerd", x), collapse = ""),
+replicate(n = 10000, mean(sample(oo$curent_value,
+staerd[x],replace = TRUE)),simplify = TRUE ))
+}
+remove(staerd,x)
 
 ## e)
 staerd <- tibble(staerd1=staerd1, staerd2 = staerd2,
-                            staerd3 = staerd3,staerd4=staerd4)
+                 staerd3 = staerd3,staerd4=staerd4)
 remove(staerd1,staerd2,staerd3,staerd4)
+
+st <- gather(staerd,key="sample", value=staerd,
+            c(staerd1,staerd2,staerd3,staerd4))
+
+
+ggplot(data = st, aes(x = 1:40000, y = staerd)) +
+    geom_point() + ##facet_wrap(~sample)
+  facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
+             shrink = TRUE, labeller = "label_value", as.table = TRUE,
+             switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
+  
