@@ -53,7 +53,8 @@ staerd[x],replace = TRUE)),simplify = TRUE ))
 remove(staerd,x)
 
 ## e)
-staerd <- tibble(staerd1=staerd1, staerd2 = staerd2,
+num <- c(1:10000)
+staerd <- tibble(num,staerd1=staerd1, staerd2 = staerd2,
                  staerd3 = staerd3,staerd4=staerd4)
 remove(staerd1,staerd2,staerd3,staerd4)
 
@@ -61,9 +62,18 @@ st <- gather(staerd,key="sample", value=staerd,
             c(staerd1,staerd2,staerd3,staerd4))
 
 
-ggplot(data = st, aes(x = 1:40000, y = staerd)) +
+ggplot(data = st, aes(x = num, y = staerd)) +
     geom_point() + ##facet_wrap(~sample)
   facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
              shrink = TRUE, labeller = "label_value", as.table = TRUE,
              switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
   
+
+qplot(st,aes(x =1:40000,y = staerd),
+      geom="line")+ xlab("x")+ ylab("y") +
+  geom_hline(yintercept = price_mean, col="red")+ ##facet_wrap(~sample)
+  facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
+             shrink = TRUE, labeller = "label_value", as.table = TRUE,
+             switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
+
+qplot(staerd,data=st) + facet_wrap(~sample)
