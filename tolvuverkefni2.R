@@ -8,7 +8,7 @@ oo = oo %>% rename("curent_value" = "nuvirdi",
                    "type" = "teg_eign",
                    "area" = "matssvaedi",
                    "size" = "ibm2",)
-## a)
+# a)
 set.seed(0601)
 hverfi<-sample(c(20,90,100),1)
 oo <- oo%>%filter(area==hverfi)
@@ -17,7 +17,7 @@ oo <- filter(oo, type =="Íbúðareign")
 oo <- subset(oo, select = -c(type))
 remove(hverfi)
 
-## b)
+# b)
 # mean(oo$curent_value)
 # min(oo$curent_value)
 # max(oo$curent_value)
@@ -26,7 +26,7 @@ ggplot(oo, aes( x=curent_value)) +
   geom_histogram()+xlab("Price (thousands - ISK)")+ylab("Frequency - Number of properties")
 price_mean = mean(oo$curent_value)
 
-## c)
+# c)
 set.seed(0601)
 someVector <- sapply((1:5000),
   function(x) {mean(sample(oo$curent_value, x,replace = TRUE))})      
@@ -43,43 +43,49 @@ qplot(x = 1:5000,
       geom="line")+ xlab("sample size")+ ylab("mean price") +
       geom_hline(yintercept = price_mean, col="red")
 
-## d)
+# d)
 staerd <- c(2,5,20,400)
 for (x in 1:4) {
 assign(paste(c("staerd", x), collapse = ""),
 replicate(n = 10000, mean(sample(oo$curent_value,
 staerd[x],replace = TRUE)),simplify = TRUE ))
-## similarly for g lið
+# similarly for g lið
   assign(paste(c("staerd", x), collapse = ""),
   replicate(n = 10000, mean(sample(oo$curent_value,
   staerd[x],replace = TRUE)),simplify = TRUE ))
   
   
 }
-remove(staerd,x)
+remove(x)
 
-## e)
+# e)
 num <- c(1:10000)
-staerd <- tibble(num,staerd1=staerd1, staerd2 = staerd2,
-                 staerd3 = staerd3,staerd4=staerd4)
+staerd <- tibble(num,staerd1, staerd2,staerd3,staerd4)
 remove(staerd1,staerd2,staerd3,staerd4)
 
 st <- gather(staerd,key="sample", value=staerd,
             c(staerd1,staerd2,staerd3,staerd4))
 
-## works ggplot
+# works ggplot
 ggplot(data = st, aes(x = staerd)) +
-    geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+ ##facet_wrap(~sample)
+    geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+
   facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
              shrink = TRUE, labeller = "label_value", as.table = TRUE,
              switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
   
-##qplot
+#qplot
 qplot(st,aes(x =num,y = staerd),     geom="line")+ xlab("x")+ ylab("y") +
-  geom_hline(yintercept = price_mean, col="red")+ ##facet_wrap(~sample)
+  geom_hline(yintercept = price_mean, col="red")+ #facet_wrap(~sample)
   facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
              shrink = TRUE, labeller = "label_value", as.table = TRUE,
              switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
 
 qplot(staerd,data=st) + facet_wrap(~sample)
+
+# g)
+ggplot(data = st, aes(x = staerd)) +
+  geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+ #facet_wrap(~sample)
+  facet_wrap(~sample, nrow = 2, ncol = 2, scales = "free",
+             shrink = TRUE, labeller = "label_value", as.table = TRUE,
+             switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
 
