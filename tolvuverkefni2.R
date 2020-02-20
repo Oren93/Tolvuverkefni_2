@@ -49,11 +49,7 @@ for (x in 1:4) {
 assign(paste(c("staerd", x), collapse = ""),
 replicate(n = 10000, mean(sample(oo$curent_value,
 staerd[x],replace = TRUE)),simplify = TRUE ))
-# similarly for g lið
-  assign(paste(c("staerd", x), collapse = ""),
-  replicate(n = 10000, mean(sample(oo$curent_value,
-  staerd[x],replace = TRUE)),simplify = TRUE ))
-  
+
   
 }
 remove(x)
@@ -65,27 +61,38 @@ remove(staerd1,staerd2,staerd3,staerd4)
 
 st <- gather(staerd,key="sample", value=staerd,
             c(staerd1,staerd2,staerd3,staerd4))
+st
 
-# works ggplot
+
 ggplot(data = st, aes(x = staerd)) +
     geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+
   facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
              shrink = TRUE, labeller = "label_value", as.table = TRUE,
              switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
   
-#qplot
-qplot(st,aes(x =num,y = staerd),     geom="line")+ xlab("x")+ ylab("y") +
-  geom_hline(yintercept = price_mean, col="red")+ #facet_wrap(~sample)
-  facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
-             shrink = TRUE, labeller = "label_value", as.table = TRUE,
-             switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
 
-qplot(staerd,data=st) + facet_wrap(~sample)
-
-# g)
+## f)
 ggplot(data = st, aes(x = staerd)) +
-  geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+ #facet_wrap(~sample)
+  geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+
   facet_wrap(~sample, nrow = 2, ncol = 2, scales = "free",
              shrink = TRUE, labeller = "label_value", as.table = TRUE,
              switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
+
+
+## g)
+
+tolfr <- tibble(item=c("n = 2", "n = 5", "n = 20", "n = 400", "dataframe"),
+ mean = c(mean(staerd$staerd1), mean(staerd$staerd2),
+ mean(staerd$staerd3), mean(staerd$staerd4), mean(oo$curent_value)),
+ variance = c(var(staerd$staerd1), var(staerd$staerd2),
+ var(staerd$staerd3), var(staerd$staerd4), var(oo$curent_value)))
+
+
+## h)
+
+
+
+
+## i)
+
 

@@ -48,7 +48,7 @@ ggplot(oo, aes( x=curent_value)) +
 price_mean = mean(oo$curent_value)
 ```
 
-The mean price is `r round(mean(oo$curent_value), digits=0)` with a minimum of `r min(oo$curent_value)` and a maximum of `r max(oo$curent_value)` 
+The mean price is `r round(mean(oo$curent_value), digits=0)` with a variance of `r var(oo$curent_value)`. 
 
 ## C)
 here we will demonstrate how the mean converges onto a single value with a larger and larger sample size. This information can very very important to wee whether a mean really tells you something about a data set or wether the mean is taken before the mean converges. As before we will need a seed to ensre that the plot is the same every time. 
@@ -85,15 +85,57 @@ remove(staerd)
 ```
 
 ## e)
-
+These vectors can also be used to illustrate the convergence towards a mean or expected value with larger and larger sample sizes. These four histograms show how with larger sample sizes the distribution gets closer and closer to the expected value.
 
 ```{r}
+num <- c(1:10000)
+staerd <- tibble(num,staerd1=staerd1, staerd2 = staerd2,
+                 staerd3 = staerd3,staerd4=staerd4)
+remove(staerd1,staerd2,staerd3,staerd4)
 
+st <- gather(staerd,key="sample", value=staerd,
+            c(staerd1,staerd2,staerd3,staerd4))
+
+#works ggplot
+ggplot(data = st, aes(x = staerd)) +
+    geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+ ##facet_wrap(~sample)
+  facet_wrap(~sample, nrow = 2, ncol = 2, scales = "fixed",
+             shrink = TRUE, labeller = "label_value", as.table = TRUE,
+             switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
 ```
 
 
-```{r}
+## f)
+Here we have the same tables with the scales free so the axes adapt to the data. Note how for larger sample sizes i.e. "staerd3" and "staerd4" the data forms a normal distribution centered around the mean with smaller and smaller variances. 
 
+```{r}
+ggplot(data = st, aes(x = staerd)) +
+  geom_histogram(bins=50)+geom_vline(xintercept = price_mean, col="red")+
+  facet_wrap(~sample, nrow = 2, ncol = 2, scales = "free",
+             shrink = TRUE, labeller = "label_value", as.table = TRUE,
+             switch = NULL, drop = TRUE, dir = "h", strip.position = "top")
 ```
 
 
+## g)
+
+```{r, comment=NA}
+tolfr <- tibble(item=c("n = 2", "n = 5", "n = 20", "n = 400", "dataframe"),
+ mean = c(mean(staerd$staerd1), mean(staerd$staerd2),
+ mean(staerd$staerd3), mean(staerd$staerd4), mean(oo$curent_value)),
+ variance = c(var(staerd$staerd1), var(staerd$staerd2),
+ var(staerd$staerd3), var(staerd$staerd4), var(oo$curent_value)))
+print(tolfr)
+
+```
+
+## h)
+
+## i)
+
+
+
+#remvove before end
+```{r}
+
+```
