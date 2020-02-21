@@ -36,6 +36,12 @@ oo <- subset(oo, select = -c(type))
 
 As the seed is fixed the same area will be selected every time, in our case `r hverfi`. 
 
+<<<<<<< HEAD
+=======
+```{r, echo=FALSE}
+rm(hverfi)
+```
+>>>>>>> 4bf9f55bd3e23adaaef27360dd73a5d9b53920f7
 
 ## b)
 To get an idea of the data we are working with we plot the price distribution of properties. We also define the mean price for later use.
@@ -60,6 +66,8 @@ qplot(x = 1:5000,
       y = someVector,
       geom="line")+ xlab("Sample size")+ ylab("Mean price") +
       geom_hline(yintercept = price_mean, col="red")
+```
+```{r, echo=FALSE}
 rm(someVector)
 ```
 
