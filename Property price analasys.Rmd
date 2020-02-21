@@ -36,7 +36,7 @@ oo <- subset(oo, select = -c(type))
 
 As the seed is fixed the same area will be selected every time, in our case `r hverfi`. But we don't need this variable anymore so we'll remove it.
 
-```{r}
+```{r, echo=FALSE}
 rm(hverfi)
 ```
 
@@ -63,6 +63,8 @@ qplot(x = 1:5000,
       y = someVector,
       geom="line")+ xlab("Sample size")+ ylab("Mean price") +
       geom_hline(yintercept = price_mean, col="red")
+```
+```{r, echo=FALSE}
 rm(someVector)
 ```
 
