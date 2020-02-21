@@ -10,6 +10,7 @@ library(tidyverse)
 library(readr)
 library(dplyr)
 library(ggplot2)
+library(knitr)
 ```
 
 ## a)
@@ -125,11 +126,18 @@ tolfr <- tibble(item=c("n = 2", "n = 5", "n = 20", "n = 400", "dataframe"),
  mean(staerd$staerd3), mean(staerd$staerd4), mean(oo$curent_value)),
  variance = c(var(staerd$staerd1), var(staerd$staerd2),
  var(staerd$staerd3), var(staerd$staerd4), var(oo$curent_value)))
-print(tolfr)
-
+knitr::kable(tolfr,
+  align = 'ccc', table.attr = "class=\"table\"", 
+  format = "html")
 ```
 
 ## h)
+Central Limit Theorem:
+
+Let $X_1, X_2, . . .X_n$ be
+independent random variables all having the same distribution function with ﬁnite expectation $\mu=E[X_i], i=1,2,...,n$ and ﬁnite strictly positive variance $\sigma_2=Var[X_i], i=1,2,,....,n$ then for all $x\in \mathbb{R}$ it holds that
+
+$$P\left ( \frac{X_{1}+...+X_{n}-n\mu}{\sigma \sqrt{n}}\leq x \right )\rightarrow \Phi (x), n\rightarrow \infty$$
 
 ## i)
 
@@ -138,4 +146,18 @@ print(tolfr)
 #remvove before end
 ```{r}
 
+```
+
+```{r results="asis", echo=FALSE}
+cat("
+<style>
+.table {
+  padding-top: 20em;
+   width: 40%;
+   margin: 0 auto;
+}
+th, td, tr {
+        border: 1px solid black;}
+</style>
+")
 ```
