@@ -34,14 +34,15 @@ oo <- filter(oo, type =="Íbúðareign")
 oo <- subset(oo, select = -c(type))
 ```
 
-As the seed is fixed the same area will be selected every time, in our case `r hverfi`. But we don't need this variable anymore so we'll remove it.
+As the seed is fixed the same area will be selected every time, in our case `r hverfi`. 
 
 ```{r, echo=FALSE}
 rm(hverfi)
 ```
 
+
 ## b)
-Here we have a histogram that shows the price distribution of properties.
+To get an idea of the data we are working with we plot the price distribution of properties. We also define the mean price for later use.
 
 ```{r, warning=FALSE, message=FALSE}
 ggplot(oo, aes( x=curent_value)) + 
@@ -53,6 +54,7 @@ The mean price is `r round(mean(oo$curent_value), digits=0)` with a variance of 
 
 ## C)
 here we will demonstrate how the mean converges onto a single value with a larger and larger sample size. This information can be very very important to see whether a mean really tells you something about a data set or wether the mean is taken before the mean converges. As before we will need a seed to ensre that the plot is the same every time. 
+
 
 ```{r}
 set.seed(0601)
@@ -68,11 +70,12 @@ qplot(x = 1:5000,
 rm(someVector)
 ```
 
-This is the law of large numbers at work. Note that the database only contains 1256 values so we are reusing values to create the full plot.
+This is the law of large numbers at work. Note that the database only contains `r NROW(oo)` values so we are reusing values to create the full plot.
 
 
 ## d)
 Here we create four vectors with 10,000 entries. Each entry contains the average of n random prices. We use n = 2, 5, 20, 400.
+
 
 ```{r}
 staerd <- c(2,5,20,400)
@@ -88,7 +91,7 @@ remove(staerd)
 ```
 
 ## e)
-These vectors can also be used to illustrate the convergence towards a mean or expected value with larger and larger sample sizes. These four histograms show how with larger sample sizes the distribution gets closer and closer to the expected value.
+These vectors can be used to illustrate how averages taken in the fashion described above form a normal distribution.
 
 ```{r}
 num <- c(1:10000)
@@ -121,7 +124,7 @@ ggplot(data = st, aes(x = staerd)) +
 
 
 ## g)
-
+Here is a table showing how accurate the means of the vectors created in part d are compared to the actual mean found in part b. It also shows how the variance decreases as n increases.
 ```{r, comment=NA}
 tolfr <- tibble(item=c("n = 2", "n = 5", "n = 20", "n = 400", "dataframe"),
  mean = c(mean(staerd$staerd1), mean(staerd$staerd2),
@@ -143,12 +146,12 @@ $$P\left ( \frac{X_{1}+...+X_{n}-n\mu}{\sigma \sqrt{n}}\leq x \right )\rightarro
 
 ## i)
 
+The graphs of the vectors created in part d are all normally distributed, roughly around the true mean as calculated in part b. This is exactly what the central limit theorem would suggest happens. With larger n the values the peak of the expected value of the normal distributions approach the true mean. With larger n values the variance also decreases as the centrail limit theorem dictates.
 
 
-#remvove before end
-```{r}
 
-```
+
+
 
 ```{r results="asis", echo=FALSE}
 cat("
