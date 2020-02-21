@@ -52,7 +52,7 @@ price_mean = mean(oo$curent_value)
 The mean price is `r round(mean(oo$curent_value), digits=0)` with a variance of `r var(oo$curent_value)`. 
 
 ## C)
-here we will demonstrate how the mean converges onto a single value with a larger and larger sample size. This information can very very important to wee whether a mean really tells you something about a data set or wether the mean is taken before the mean converges. As before we will need a seed to ensre that the plot is the same every time. 
+here we will demonstrate how the mean converges onto a single value with a larger and larger sample size. This information can be very very important to see whether a mean really tells you something about a data set or wether the mean is taken before the mean converges. As before we will need a seed to ensre that the plot is the same every time. 
 
 ```{r}
 set.seed(0601)
@@ -72,7 +72,7 @@ This is the law of large numbers at work. Note that the database only contains 1
 
 
 ## d)
-Here we create four vectors with 10000 entries. Each entry contains the average of n random prices. We use n = 2, 5, 20, 400.
+Here we create four vectors with 10,000 entries. Each entry contains the average of n random prices. We use n = 2, 5, 20, 400.
 
 ```{r}
 staerd <- c(2,5,20,400)
