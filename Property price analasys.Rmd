@@ -1,7 +1,7 @@
 ---
 title: "Property price analasys (Tölvuverkefni 2)"
 author: "Óðinn Eldon Ragnarsson (oer2@hi.is) and Oren Raz (orr3@hi.is)"
-date: "15.2.2020"
+date: "21.2.2020"
 output: html_document
 ---
 Importing libraries needed
@@ -50,7 +50,14 @@ ggplot(oo, aes( x=curent_value)) +
 price_mean = mean(oo$curent_value)
 ```
 
-The mean price is `r round(mean(oo$curent_value), digits=0)` with a variance of `r var(oo$curent_value)`. 
+```{r,echo=FALSE}
+str1 <- format(round(mean(oo$curent_value), digits=0), scientific=F)
+str2 <- format(var(oo$curent_value), scientific=F)  
+```
+The mean price is `r str1` with a variance of `r str2`. 
+```{r,echo=FALSE}
+rm(str1,str2) 
+```
 
 ## C)
 here we will demonstrate how the mean converges onto a single value with a larger and larger sample size. This information can be very very important to see whether a mean really tells you something about a data set or wether the mean is taken before the mean converges. As before we will need a seed to ensre that the plot is the same every time. 
